@@ -3,6 +3,7 @@ name: react-donut-chart release
 on:
   push:
     branches:
+      - main
       - master
       - 'feat/**'
 
