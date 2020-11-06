@@ -39,7 +39,7 @@ WithGradient.args = {
   label: 'With gradient',
   value: 50,
   withGradient: true,
-  colors: ['red', 'lime']
+  color: ['red', 'lime']
 };
 
 export const NotRounded = Template.bind({});
