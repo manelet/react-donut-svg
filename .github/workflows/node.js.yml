@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - main
-      - master
       - 'feat/**'
 
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -32,4 +31,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: cd dist && npx semantic-release
+      run: cd dist && npx semantic-release --branches main
