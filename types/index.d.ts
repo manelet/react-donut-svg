@@ -1,4 +1,4 @@
-declare module 'react-donut-chart'
+declare module 'react-donut-svg'
 
 export interface DonutProps {
   label: string,

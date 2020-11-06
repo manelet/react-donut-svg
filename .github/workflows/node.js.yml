@@ -1,4 +1,4 @@
-name: react-donut-chart release
+name: react-donut-svg release
 
 on:
   push:
