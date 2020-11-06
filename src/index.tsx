@@ -1,67 +1,49 @@
-import React from 'react'
-import styled, { css, keyframes } from 'styled-components'
+import React, { useLayoutEffect } from 'react'
+import { DonutProps } from './index.d'
+import { createStyles, cleanStyles } from './styles'
 
-interface DoughnutProps {
-  label: string,
-  width?: number,
-  height?: number,
-  value: number,
-  color?: [number, number, number]
-}
+import './styles.css'
 
-interface ChartProps {
-  // r: number,
-  // dash: number,
-  v: number
-}
-
-const generateAnimation = (v: number) => keyframes`
-  from {
-    stroke-dasharray: 0, 100;
-  }
-  to {
-    stroke-dasharray: ${v}, ${100-v};
-  }
-`
-
-const Chart = styled.svg`
-  width: 100%;
-  height: 100%;
-
-  circle {
-    stroke-linecap: round;
-  }
-
-  circle.segment {
-    stroke-dashoffset: 25;
-    animation: ${css`${({ v }: ChartProps) => generateAnimation(v)}`} 1s ease-out forwards;
-  }
-`
-
-const Doughnut:React.FC<DoughnutProps> = ({
+const Donut:React.FC<DonutProps> = ({
   label,
   width = 60,
   height = 60,
   value,
-  color = [151, 239, 233]
+  color = 'rgba(151, 239, 233, 1)',
+  bgColor = '#ccc',
+  withGradient = false,
+  colors = [],
+  rounded = true,
+  delay = 0,
+  duration = 850
 }) => {
   const r = 100 / (2 * Math.PI)
-  const gradientId = `gradient-${label.toLowerCase()}`
+  const id = label.replace(/\s/g, '').toLowerCase()
+  const gradientId = `gradient-${id}`
+  const donutId = `donut-${id}`
 
-  console.log(label, color.join(','));
+  useLayoutEffect(() => {
+    createStyles(donutId, value, delay, duration)
+    return () => cleanStyles(donutId)
+  }, [value])
   
+  if (withGradient && !colors.length) {
+    console.error(`🍩 withGradient option requires a colors prop with an array of colors`)
+  }
 
   return (
-    <div className='doughnut' style={{ width, height }}>
+    <div className={`__donut __donut-${donutId}`} style={{ width, height }}>
       <span>{label}</span>
-      <Chart v={value} viewBox='0 0 40 40'>
-        <defs>
-          <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={`rgba(${color.join(',')}, 1)`} />
-            <stop offset="100%" stopColor={`rgba(${color.join(',')}, .65)`} />
-          </linearGradient>
-        </defs>
-
+      <svg viewBox='0 0 40 40'>
+        {withGradient && (
+          <defs>
+            <linearGradient gradientTransform="rotate(90)" id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+              {colors && colors.length && colors.map((color: string, i: number) => (
+                <stop offset={`${i * (100 / (colors.length - i))}%`} stopColor={color} />
+              ))}
+            </linearGradient>
+          </defs>
+        )}
         <g>
           <circle
             r={r}
@@ -78,7 +60,7 @@ const Doughnut:React.FC<DoughnutProps> = ({
             className='ring'
             strokeOpacity={.25}
             strokeWidth={3}
-            stroke={`rgba(${color.join(',')}, 1)`}
+            stroke={bgColor}
             fill='transparent'
           />
           <circle
@@ -88,11 +70,10 @@ const Doughnut:React.FC<DoughnutProps> = ({
             strokeWidth={5}
             className='segment'
             fill='transparent'
-            stroke={`url(#${gradientId})`}
-            // stroke={`rgba(${color.join(',')}, 1)`}
+            stroke={withGradient ? `url(#${gradientId})` : color}
+            strokeLinecap={rounded ? 'round' : 'square'}
           />
           <text
-            style={{ fontSize: '10px' }}
             x='50%'
             y='50%'
             dominantBaseline="middle"
@@ -101,9 +82,9 @@ const Doughnut:React.FC<DoughnutProps> = ({
             {value}%
           </text>
         </g>
-      </Chart>
+      </svg>
     </div>
   )
 }
 
-export default Doughnut
+export default Donut
