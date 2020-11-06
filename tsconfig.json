@@ -1,10 +1,11 @@
 {
   "include": [
-      "src/*"
+      "src/*", "stories", "types/index.d.ts", "__tests__"
   ],
   "compilerOptions": {
       "target": "es5",
       "jsx": "react",
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true
   }
 }

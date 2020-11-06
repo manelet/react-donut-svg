@@ -1,7 +1,7 @@
 # react-donut-chart
 
-- test (React-testing-luibrary)
++ test (React-testing-luibrary)
 - storybook to gh pages
-- modular code
++ modular code
 + fix colors
 + remove styled-components

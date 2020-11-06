@@ -1,4 +1,6 @@
-export const createStyles = (id: string, value: number, delay: number, duration: number) => {
+import { CreateStylesOpts } from '../types'
+
+export const createStyles = (id: string, { value, delay, duration }: CreateStylesOpts) => {
   const css = `
     @keyframes ${id} {
       from {

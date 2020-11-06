@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import { DonutProps } from './index.d'
+import { DonutProps, CreateStylesOpts } from '../types'
 import { createStyles, cleanStyles } from './styles'
 
 import './styles.css'
@@ -12,7 +12,6 @@ const Donut:React.FC<DonutProps> = ({
   color = 'rgba(151, 239, 233, 1)',
   bgColor = '#ccc',
   withGradient = false,
-  colors = [],
   rounded = true,
   delay = 0,
   duration = 850
@@ -23,12 +22,14 @@ const Donut:React.FC<DonutProps> = ({
   const donutId = `donut-${id}`
 
   useLayoutEffect(() => {
-    createStyles(donutId, value, delay, duration)
+    createStyles(donutId, { value, delay, duration })
     return () => cleanStyles(donutId)
   }, [value])
   
-  if (withGradient && !colors.length) {
-    console.error(`🍩 withGradient option requires a colors prop with an array of colors`)
+  // console.log('renedr', withGradient, color);
+
+  if (withGradient && (!Array.isArray(color) || !color.length)) {
+    throw new Error(`🍩 withGradient option color to be an array`)
   }
 
   return (
@@ -37,9 +38,20 @@ const Donut:React.FC<DonutProps> = ({
       <svg viewBox='0 0 40 40'>
         {withGradient && (
           <defs>
-            <linearGradient gradientTransform="rotate(90)" id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-              {colors && colors.length && colors.map((color: string, i: number) => (
-                <stop offset={`${i * (100 / (colors.length - i))}%`} stopColor={color} />
+            <linearGradient
+              gradientTransform="rotate(90)"
+              id={gradientId}
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              {Array.isArray(color) && color.map((c: string, i: number) => (
+                <stop
+                  key={`stop-${donutId}-${c}`}
+                  offset={`${i * (100 / (color.length - i))}%`}
+                  stopColor={c}
+                />
               ))}
             </linearGradient>
           </defs>
@@ -70,7 +82,7 @@ const Donut:React.FC<DonutProps> = ({
             strokeWidth={5}
             className='segment'
             fill='transparent'
-            stroke={withGradient ? `url(#${gradientId})` : color}
+            stroke={!withGradient && typeof color === 'string' ? color : `url(#${gradientId})`}
             strokeLinecap={rounded ? 'round' : 'square'}
           />
           <text
