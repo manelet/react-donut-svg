@@ -11,7 +11,8 @@
     "build-storybook": "build-storybook --no-dll",
     "build": "rollup -c",
     "prebuild": "rm -fr dist",
-    "deploy-storybook": "storybook-to-ghpages"
+    "deploy-storybook": "storybook-to-ghpages",
+    "semantic-release": "semantic-release"
   },
   "keywords": [],
   "author": "",
@@ -37,9 +38,14 @@
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-typescript2": "^0.29.0",
     "ts-jest": "^26.4.3",
-    "typescript": "^4.0.5"
+    "typescript": "^4.0.5",
+    "semantic-release": "^17.2.2"
   },
   "peerDependencies": {
     "react": "16.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manelet/react-donut-chart.git"
   }
 }
