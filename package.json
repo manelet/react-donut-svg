@@ -6,7 +6,7 @@
   "module": "index_es.js",
   "browser": "index_umd.js",
   "scripts": {
-    "test": "jest --silent",
+    "test": "jest --silent --updateSnapshot",
     "storybook": "start-storybook -p 6006 --no-dll",
     "build-storybook": "build-storybook --no-dll",
     "build": "rollup -c",
