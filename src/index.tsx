@@ -1,20 +1,19 @@
 import React, { useLayoutEffect } from 'react'
-import { DonutProps, CreateStylesOpts } from '../types'
+import { DonutProps } from '../types'
 import { createStyles, cleanStyles } from './styles'
 
 import './styles.css'
 
 const Donut:React.FC<DonutProps> = ({
   label,
-  width = 60,
-  height = 60,
   value,
   color = 'rgba(151, 239, 233, 1)',
   bgColor = '#ccc',
   withGradient = false,
   rounded = true,
   delay = 0,
-  duration = 850
+  duration = 850,
+  showLabel = true
 }) => {
   const r = 100 / (2 * Math.PI)
   const id = label.replace(/\s/g, '').toLowerCase()
@@ -26,15 +25,17 @@ const Donut:React.FC<DonutProps> = ({
     return () => cleanStyles(donutId)
   }, [value])
   
-  // console.log('renedr', withGradient, color);
-
   if (withGradient && (!Array.isArray(color) || !color.length)) {
     throw new Error(`🍩 withGradient option color to be an array`)
   }
 
   return (
-    <div className={`__donut __donut-${donutId}`} style={{ width, height }}>
-      <span>{label}</span>
+    <div className={`__donut __donut-${donutId}`}>
+      {showLabel && (
+        <span>
+          {label}
+        </span>
+      )}
       <svg viewBox='0 0 40 40'>
         {withGradient && (
           <defs>

@@ -8,7 +8,9 @@ export default {
 }
 
 const Template: Story<ComponentProps<typeof Donut>> = (args) => (
-  <Donut {...args} />
+  <div style={{ maxWidth: '300px'}}>
+    <Donut {...args} />
+  </div>
 );
 
 
@@ -24,15 +26,7 @@ export const Default = Template.bind({});
 Default.args = {
   label: 'test',
   value: 50
-};
-
-export const Bigger = Template.bind({});
-Bigger.args = {
-  label: 'test',
-  value: 50,
-  width: 300,
-  height: 300
-};
+}
 
 export const WithGradient = Template.bind({});
 WithGradient.args = {

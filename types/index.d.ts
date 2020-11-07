@@ -10,7 +10,8 @@ export interface DonutProps {
   bgColor?: string,
   rounded?: boolean,
   delay?: number,
-  duration?: number
+  duration?: number,
+  showLabel?: boolean
 }
 
 export interface CreateStylesOpts {
